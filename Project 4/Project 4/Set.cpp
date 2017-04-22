@@ -99,18 +99,14 @@ void Set<T>::unionm(const Set set2) {
 	int larger = size + set2.size;
 
 	//position to insert element
-	int tempPos = 0;
+	int tempPos = pos;
 
 	//Temparray to hold elements before inserting them into 'ss'
 	T *TempArray = new T[larger];
 
 	//loop through this setArray
 	//copy each element from setArray into TempArray
-	for (int i = 0; i < pos - 1; i++)
-	{
-		TempArray[tempPos] = setArray[i];
-		tempPos++;
-	}
+	TempArray = setArray;
 
 	//bool has, set to true if TempArray has an element in set2.setArray
 	//insert into the temp array, set2 setArray
@@ -118,9 +114,9 @@ void Set<T>::unionm(const Set set2) {
 	//if match found break out of for loop 'i'
 	//if not match found, copy element from set2 to TempArray.
 	bool has = false;
-	for (int j = 0; j < set2.pos - 1; j++)
+	for (int j = 0; j < set2.pos; j++)
 	{
-		for (int i = 0; i < tempPos - 1; i++)
+		for (int i = 0; i < tempPos; i++)
 		{
 			if (TempArray[i] == set2.setArray[j])
 			{
@@ -136,7 +132,7 @@ void Set<T>::unionm(const Set set2) {
 	}
 
 	//loop through TempArray and insert elements into 'ss'
-	for (int i = 0; i < tempPos - 1; i++)
+	for (int i = 0; i < tempPos; i++)
 	{
 		ss << TempArray[i] << " ";
 	}
@@ -236,7 +232,7 @@ void Set<T>::sort() {
 				currentMinIndex = j;
 			}
 		}
-		 
+
 		if (currentMinIndex != i) {
 			setArray[currentMinIndex] = setArray[i];
 			setArray[i] = *Temp;
