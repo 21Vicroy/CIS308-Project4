@@ -12,7 +12,7 @@ class Set {
 private:
 	int size = 10;
 	int pos = 0;
-	int n = -1;
+
 public:
 	T *Temp = new T;
 	T *setArray = new T[10];
@@ -93,32 +93,50 @@ void Set<T>::intersect(const Set set2) {
 template <class T>
 void Set<T>::unionm(const Set set2) {
 	stringstream ss;
+
+	//ensure that the TempArray is large enough to potentially hold 
+	//all elements in this set and set2
 	int larger = size + set2.size;
-	int i, j;
+
+	//position to insert element
 	int tempPos = 0;
+
+	//Temparray to hold elements before inserting them into 'ss'
 	T *TempArray = new T[larger];
-	//insert into the temp array, this setArray
-	for (j = 0; j < pos; j++)
+
+	//loop through this setArray
+	//copy each element from setArray into TempArray
+	for (int i = 0; i < pos - 1; i++)
 	{
-		for (i = 0; i < tempPos; i++)
-		{
-			if (TempArray[i] == setArray[j])
-				break;
-			TempArray[tempPos++] = setArray[j];
-		}
-	}
-	//insert into the temp array, set2 setArray
-	for (j = 0; j < set2.pos; j++)
-	{
-		for (i = 0; i < tempPos; i++)
-		{
-			if (TempArray[i] == set2.setArray[j])
-				break;
-			TempArray[tempPos++] = set2.setArray[j];
-		}
+		TempArray[tempPos] = setArray[i];
+		tempPos++;
 	}
 
-	for (i = 0; i < tempPos; i++)
+	//bool has, set to true if TempArray has an element in set2.setArray
+	//insert into the temp array, set2 setArray
+	//Check for any matches before inserting an element
+	//if match found break out of for loop 'i'
+	//if not match found, copy element from set2 to TempArray.
+	bool has = false;
+	for (int j = 0; j < set2.pos - 1; j++)
+	{
+		for (int i = 0; i < tempPos - 1; i++)
+		{
+			if (TempArray[i] == set2.setArray[j])
+			{
+				has = true;
+			}
+		}
+		if (has == false)
+		{
+			TempArray[tempPos] = set2.setArray[j];
+			tempPos++;
+		}
+
+	}
+
+	//loop through TempArray and insert elements into 'ss'
+	for (int i = 0; i < tempPos - 1; i++)
 	{
 		ss << TempArray[i] << " ";
 	}
@@ -161,13 +179,12 @@ int Set<T>::insert(T elem) {
 	}
 	setArray[pos] = elem;
 	pos++;
-	n++;
 	cout << setArray[pos - 1] << " is in the setArray" << endl;
-	if (n > 2)
+	if (pos > 2)
 	{
 		sort();
 	}
-	return 1;
+	return 0;
 }
 
 //Sorts the setArray
@@ -206,12 +223,12 @@ void Set<T>::sort() {
 	//	}
 	//}
 
-	for (int i = 0; i < n - 1; i++)
+	for (int i = 0; i < pos - 1; i++)
 	{
 		*Temp = setArray[i];
 		int currentMinIndex = i;
 
-		for (int j = i + 1; j < n; j++)
+		for (int j = i + 1; j < pos; j++)
 		{
 			if (*Temp > setArray[j])
 			{
@@ -219,7 +236,7 @@ void Set<T>::sort() {
 				currentMinIndex = j;
 			}
 		}
-
+		 
 		if (currentMinIndex != i) {
 			setArray[currentMinIndex] = setArray[i];
 			setArray[i] = *Temp;
