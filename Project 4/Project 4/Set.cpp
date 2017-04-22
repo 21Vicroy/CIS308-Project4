@@ -23,10 +23,21 @@ public:
 	void intersect(const Set);
 	void unionm(const Set);
 	void sort();
+	void printSet();
 };
 
 template <class T>
 Set<T>::Set() {
+}
+
+template <class T>
+void Set<T>::printSet() {
+	cout << "Set 1 sorted: ";
+	for (int i = 0; i < pos; i++)
+	{
+		cout << setArray[i] << " ";
+	}
+	cout << endl;
 }
 
 
@@ -114,18 +125,23 @@ void Set<T>::unionm(const Set set2) {
 	//if match found break out of for loop 'i'
 	//if not match found, copy element from set2 to TempArray.
 	bool has = false;
+
 	for (int j = 0; j < set2.pos; j++)
 	{
+		has = false;
+		//*Temp holds character to behave like the insert method
+		//loop to check for duplicates
+		*Temp = set2.setArray[j];
 		for (int i = 0; i < tempPos; i++)
 		{
-			if (TempArray[i] == set2.setArray[j])
+			if (TempArray[i] == *Temp)
 			{
 				has = true;
 			}
 		}
 		if (has == false)
 		{
-			TempArray[tempPos] = set2.setArray[j];
+			TempArray[tempPos] = *Temp;
 			tempPos++;
 		}
 
