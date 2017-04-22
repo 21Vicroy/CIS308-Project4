@@ -213,9 +213,9 @@ void Set<T>::sort() {
 
 		for (int j = i + 1; j < n; j++)
 		{
-			if (Temp > setArray[j])
+			if (*Temp > setArray[j])
 			{
-				Temp = setArray[j];
+				*Temp = setArray[j];
 				currentMinIndex = j;
 			}
 		}
